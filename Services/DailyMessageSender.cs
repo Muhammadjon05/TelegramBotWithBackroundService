@@ -75,6 +75,7 @@ public class DailyMessageSender : BackgroundService
 		var scope = _serviceProvider.CreateScope();
 		var questionManager = scope.ServiceProvider.GetRequiredService<QuestionManager>();
 		var question = questionManager.GetQuestionById(index);
+
 		var message = $"{question.Result.Id}. {question.Result.Title}";
 		if (question.Result.Media.isExist)
 		{

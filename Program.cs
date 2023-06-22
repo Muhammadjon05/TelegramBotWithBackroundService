@@ -14,7 +14,6 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped(typeof(IQuestion), typeof(QuestionRepository));
 builder.Services.AddScoped<QuestionManager>();
-builder.Services.AddScoped<QuestionsManager>();
 builder.Services.AddScoped<DailyMessageSender>();
 builder.Services.AddHostedService<DailyMessageSender>();
 

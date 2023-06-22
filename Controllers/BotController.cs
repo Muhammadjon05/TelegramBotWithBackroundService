@@ -51,11 +51,13 @@ public class BotController : ControllerBase
 	        {
 		        UsersStore.Answers[update.CallbackQuery.From.Id].CorrectAnswer++;
 		        bot.SendTextMessageAsync(update.CallbackQuery.From.Id, "True");
+		        bot.DeleteMessageAsync(update.CallbackQuery.From.Id, update.CallbackQuery.Message.MessageId);
 	        }
 	        else
 	        {
 		        UsersStore.Answers[update.CallbackQuery.From.Id].InCorrectAnswer++;
 		        bot.SendTextMessageAsync(update.CallbackQuery.From.Id, "False");
+		        bot.DeleteMessageAsync(update.CallbackQuery.From.Id, update.CallbackQuery.Message.MessageId);
 	        }
         }
     }
