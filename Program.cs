@@ -13,7 +13,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped(typeof(IQuestion), typeof(QuestionRepository));
+builder.Services.AddScoped(typeof(IUser), typeof(UserServices));
 builder.Services.AddScoped<QuestionManager>();
+builder.Services.AddScoped<UserManager>();
 builder.Services.AddScoped<DailyMessageSender>();
 builder.Services.AddHostedService<DailyMessageSender>();
 

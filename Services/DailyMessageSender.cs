@@ -1,7 +1,10 @@
-﻿using Telegram.Bot;
+﻿using MongoDB.Driver;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramBotApi.Entities;
 using TelegramBotApi.Managers;
+using TelegramBotApi.Managers.Contracts;
 using File = System.IO.File;
 
 namespace TelegramBotApi.Services;
@@ -9,7 +12,7 @@ namespace TelegramBotApi.Services;
 public class DailyMessageSender : BackgroundService
 {
 	private readonly IServiceProvider _serviceProvider;
-
+	private IMongoCollection<Users> _users;
 	public DailyMessageSender(IServiceProvider serviceProvider)
 	{
 		_serviceProvider = serviceProvider;
@@ -26,10 +29,13 @@ public class DailyMessageSender : BackgroundService
 
 	public async Task SendMessage()
 	{
-			var bot = new TelegramBotClient("5886587622:AAG4KwO9rmQ4O5aco1fFdhpqesBZ5d_4ZIg");
-			foreach (var chatId in UsersStore.UserIds)
+		var scope = _serviceProvider.CreateScope();
+		var userManager = scope.ServiceProvider.GetRequiredService<UserManager>();
+		var users = await userManager.GetUser();
+		var bot = new TelegramBotClient("5886587622:AAG4KwO9rmQ4O5aco1fFdhpqesBZ5d_4ZIg");
+			foreach (var user in users)
 			{
-				await SendQuestion(bot, chatId);
+				await SendQuestion(bot, user.ChatId);
 			}
 	}
 
